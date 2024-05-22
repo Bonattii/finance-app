@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Loader2 } from 'lucide-react'
 import { SignIn, ClerkLoaded, ClerkLoading } from '@clerk/nextjs'
 
-export default function Page() {
+export default function SignInPage() {
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
       <div className="h-full lg:flex flex-col items-center justify-center px-4">
