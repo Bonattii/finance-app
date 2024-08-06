@@ -17,6 +17,7 @@ import {
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useConfirm } from '@/hooks/use-confirm'
 import {
   Table,
   TableBody,
@@ -41,6 +42,11 @@ export const DataTable = <TData, TValue>({
   onDelete,
   disabled
 }: DataTableProps<TData, TValue>) => {
+  const [ConfirmDialog, confirm] = useConfirm(
+    'Are you sure?',
+    'You are about to perform a bulk delete.'
+  )
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -66,6 +72,8 @@ export const DataTable = <TData, TValue>({
 
   return (
     <div>
+      <ConfirmDialog />
+
       <div className="flex items-center py-4">
         <Input
           placeholder={`Filter ${filterKey}...`}
@@ -82,9 +90,13 @@ export const DataTable = <TData, TValue>({
             size="sm"
             variant="outline"
             className="ml-auto font-normal text-xs"
-            onClick={() => {
-              onDelete(table.getFilteredSelectedRowModel().rows)
-              table.resetRowSelection()
+            onClick={async () => {
+              const isBulkDeleteAllowed = await confirm()
+
+              if (isBulkDeleteAllowed) {
+                onDelete(table.getFilteredSelectedRowModel().rows)
+                table.resetRowSelection()
+              }
             }}
           >
             <Trash className="size-4 mr-2" />
