@@ -4,7 +4,6 @@ import { insertAccountSchema } from '@/db/schema'
 import { useNewAccount } from '@/features/accounts/hooks/use-new-account'
 import { AccountForm } from '@/features/accounts/components/account-form'
 import { useCreateAccount } from '@/features/accounts/api/use-create-account'
-
 import {
   Sheet,
   SheetContent,
@@ -20,10 +19,10 @@ type FormValues = z.input<typeof formSchema>
 export const NewAccountSheet = () => {
   const { isOpen, onClose } = useNewAccount()
 
-  const { mutate, isPending } = useCreateAccount()
+  const createMutation = useCreateAccount()
 
   const onSubmit = (values: FormValues) => {
-    mutate(values, {
+    createMutation.mutate(values, {
       onSuccess: () => {
         onClose()
       }
@@ -43,7 +42,7 @@ export const NewAccountSheet = () => {
 
         <AccountForm
           onSubmit={onSubmit}
-          disabled={isPending}
+          disabled={createMutation.isPending}
           defaultValues={{ name: '' }}
         />
       </SheetContent>
