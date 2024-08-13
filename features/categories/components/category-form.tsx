@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { inserCategorySchema } from '@/db/schema'
+import { insertCategorySchema } from '@/db/schema'
 import {
   Form,
   FormControl,
@@ -15,7 +15,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 
-const formSchema = inserCategorySchema.pick({ name: true })
+const formSchema = insertCategorySchema.pick({ name: true })
 
 type FormValues = z.input<typeof formSchema>
 

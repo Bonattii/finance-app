@@ -6,7 +6,7 @@ import { zValidator } from '@hono/zod-validator'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 
 import { db } from '@/db/drizzle'
-import { categories, inserCategorySchema } from '@/db/schema'
+import { categories, insertCategorySchema } from '@/db/schema'
 
 const app = new Hono()
   .get('/', clerkMiddleware(), async (c) => {
@@ -62,7 +62,7 @@ const app = new Hono()
     clerkMiddleware(),
     zValidator(
       'json',
-      inserCategorySchema.pick({
+      insertCategorySchema.pick({
         name: true
       })
     ),
@@ -120,7 +120,7 @@ const app = new Hono()
     '/:id',
     clerkMiddleware(),
     zValidator('param', z.object({ id: z.string().optional() })),
-    zValidator('json', inserCategorySchema.pick({ name: true })),
+    zValidator('json', insertCategorySchema.pick({ name: true })),
     async (c) => {
       const auth = getAuth(c)
       const { id } = c.req.valid('param')
